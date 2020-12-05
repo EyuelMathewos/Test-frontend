@@ -2,12 +2,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import {createStore, combineReducers, compose, applyMiddleware} from 'redux';
+import { Provider } from "react-redux";
+import createSagaMiddleware from "redux-saga";
+import { composeWithDevTools } from 'redux-devtools-extension';
+import empReducer from './redux/reducers/empReducer';
+
+
 import reportWebVitals from './reportWebVitals';
+const SagaMiddleware = createSagaMiddleware();
+const middleware = [SagaMiddleware];
+
+const allReducers = combineReducers({employeeState: empReducer})
+const store = createStore(allReducers, composeWithDevTools( applyMiddleware(...middleware)));
 
 ReactDOM.render(
+  <Provider store={store}>
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
+  </Provider>
+  ,
   document.getElementById('root')
 );
 
