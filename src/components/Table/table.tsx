@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Button }  from  "../../components/Container";
 import axios from 'axios';
-
+import qs from 'qs';
 export const TH = styled.th`
   padding: 0.75em;
   height: 100%;
@@ -54,7 +54,7 @@ type Employees = [{
   salary: String
  }]
 let arrysdata : Array<object>=[]; 
-let tableName : Array<string>=[]; 
+let tableName : object=[]; 
 export class MainTable extends React.Component {
         state = {
           Employees: [{name: String,dateOfBirth: String,gender: String,salary: String}]
@@ -69,26 +69,30 @@ export class MainTable extends React.Component {
     
         axios.get('http://localhost:4000/getemployeelist')
         .then(function (res) {
-          component.setState({ Employees: res.data });
+         component.setState({ Employees: res.data });
           console.log("hello world")
-          
-          console.log(component.state.Employees);
+          //arrysdata= res.data;
+          console.log(arrysdata)
+          console.log(qs.stringify(res, { filter: ['name','dateOfBirth','gender','salary'],arrayFormat: 'comma' }))
+          //console.log(component.state.Employees);
           component.state.Employees.map((content, idx) => (
             // console.log(content)
             arrysdata.push({"name":content.name,"dateOfBirth":content.dateOfBirth,"gender":content.gender,"salary":content.salary})
           ))
-          console.log(arrysdata[0])
-          arrysdata.map((content, idx) => ( 
-            console.log(content)
+          //console.log(arrysdata[0])
+          // arrysdata.map((content, idx) => ( 
+          //   console.log(content)
              
-          ));
-          {Object.keys(arrysdata[0]).map((tname, idx) => (
-            tableName.push(tname)
+          // ));
+        //   {Object.keys(arrysdata[0]).map((tname, idx) => (
+        //     tableName.push(tname)
             
-          ))
-          console.log(tableName)
-          }
-          console.log(data[0])
+        //   ))
+        // }
+        tableName=arrysdata[0];
+          //console.log(tableName)
+          
+          //console.log(data[0])
 
         })
         .catch(function (error) {
@@ -102,45 +106,45 @@ export class MainTable extends React.Component {
     return(
 
 <div>
-<div style={{"background": "#c4c4f5","width":"100%","height":"40px","color":"#333"}}>{arrysdata.map((el, idx) => (
-                // <TH key={idx}>
-                //   <label>{el}</label>
-                // </TH>
-                
-<h1>Hello world</h1>
 
-              ))
-              }</div>
+
 <Table>
-<TR>
-              {data.map((el, idx) => (
-                // <TH key={idx}>
-                //   <label>{el}</label>
-                // </TH>
-               console.log(el)
-              ))
-              }
-                {/* <TH>
-                  <label>{"Delete"}</label>
-                </TH> */}
 
-    </TR>
-            </Table>
+                <TH>
+                  <label>Name</label>
+                </TH>
+                <TH>
+                  <label>Date of birth</label>
+                </TH>
+                <TH>
+                  <label>Gender</label>
+                </TH>
+                <TH>
+                  <label>Salary</label>
+                </TH>
 
 
-{/* {data.map((content, idx) => (
-              <div>
-      <Table key={idx}>
+
+{
+this.state.Employees.map((content, idx) => (
+  //console.log(content)
+              
+
+
         <TR>
-      {Object.values(content).map((content, idx) => (
-        <TD key={idx} >{content}</TD>
-      ))}
-       <TD>{<Button color="#ff000087" >Delete</Button>}</TD>
+     
+        <TD key={idx+"name"} >{content.name}</TD>
+        <TD key={idx+"dateofb"} >{content.dateOfBirth}</TD>
+        <TD key={idx+"gender"} >{content.gender}</TD>
+        <TD key={idx+"salary"} >{content.salary}</TD>
+      
+        <TD>{<Button color="#ff000087" >Delete</Button>}</TD>
       </TR>
-    </Table>
-              </div> 
+
+
             ))
-            } */}
+            }
+</Table>
 </div>
 
 

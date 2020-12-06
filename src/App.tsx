@@ -6,12 +6,26 @@ import  {  Container, Nav ,
   FormInput, SFormLable, Button, FormContainer  }  from  "./components/Container";
   import {FlexContainer, CardContainer, Card} from "./components/Grid/grid";
   import {MainTable} from "./components/Table/table";
+  import { connect } from 'react-redux';
+
+import {listEmployee, getlistEmployee} from './redux/Action/empAction';
+
+
+import { action, Action, StateType } from "typesafe-actions";
+// import {Employees} from "./redux/type"
+import { Dispatch } from "redux";
   //let data:string;
   //let values:string;
- 
+ interface AppProps{
+  onListEmployee(empstate:Object): void;
+  onGetEmployee(): void;
+ }
+ interface AppState{
+  employees : Object;
+ }
 
-  export default class App extends Component {
-    constructor(props:string) {
+class App extends Component<AppProps,AppState> {
+    constructor(props:AppProps) {
       super(props);
       this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -124,9 +138,10 @@ import  {  Container, Nav ,
             </div>
             </div>
             <div style={{"display":"flex"}}>
-            <Button type="submit" color="#00b3ff" >Add employee</Button>
-            <Button type="submit" color="#ffa800d6" >update employee</Button>
+            <Button  color="#00b3ff" onClick={()=>{this.props.onGetEmployee()}} >Add employee</Button>
+            <Button color="#ffa800d6" onClick={()=>{this.props.onListEmployee([{"new":"he"}])}}>update employee</Button>
             </div>
+            {/* {console.log(this.props)} */}
             </Card>
 
             <Card> 
@@ -147,5 +162,14 @@ import  {  Container, Nav ,
   );
 }
 }
-
+const MapStateToProps = (state:AppState) : AppState => ({ ...state })
+const MapDispatchToProps = (dispatch:Dispatch) => {
+  return{
+    onListEmployee: (empstate:Array<object>)=>{ dispatch(listEmployee(empstate))},
+    onGetEmployee: ()=>{ dispatch(getlistEmployee())}
+  }
+    
+  
+};
+export default connect(MapStateToProps, MapDispatchToProps)(App);
 //export default App;
