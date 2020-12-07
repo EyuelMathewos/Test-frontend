@@ -2,7 +2,7 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import axios from 'axios';
 import qs from 'qs';
 //const delay = (ms:number) => new Promise(res => setTimeout(res, ms))
-let data : Array<object>=[]; 
+let data : Object=[]; 
 function* helloSaga() {
   yield console.log('Hello Sagas!')
   }
@@ -13,6 +13,10 @@ function* helloSaga() {
     gender: String,
     salary: String
    }]
+
+   interface AppState{
+    employeeState:{employees : Employees};
+   }
 
    export interface actionType {
     type: string;
@@ -45,20 +49,21 @@ function* helloSaga() {
      
      console.log(data)
     
-     res.data.map((content:Employees, idx:number) => (
+    //  res.data.map((content:Employees, idx:number) => (
       
-      data.push(content)
+    //   data.push(content)
       
-    ))
-    console.log(action.payload)
-    console.log(data[0])
+    // ))
+    data={employeeState:{employees : res.data}};
+   // console.log(action.payload)
+    console.log(data)
 
     })
     .catch(function (error) {
       console.log(error);
     });
     console.log(data)
-    yield put({ type: "LIST_EMP", payload: [data] });
+    yield put({ type: "LIST_EMP", payload: data });
 
   }
   

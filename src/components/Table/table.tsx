@@ -1,8 +1,13 @@
-import React from "react";
+import React, {Component} from "react";
 import styled from "styled-components";
 import { Button }  from  "../../components/Container";
 import axios from 'axios';
 import qs from 'qs';
+import { connect } from 'react-redux';
+
+import {listEmployee, getlistEmployee, reqAddEmployee} from '../../redux/Action/empAction';
+import { Dispatch } from "redux";
+
 export const TH = styled.th`
   padding: 0.75em;
   height: 100%;
@@ -57,49 +62,19 @@ let arrysdata : Array<object>=[];
 let tableName : object=[]; 
 
 
-export class MainTable extends React.Component {
-        state = {
-          Employees: [{_id:String,name: String,dateOfBirth: String,gender: String,salary: String}]
-            
-        };
+interface AppProps{
+  onGetEmployee(): void;
+ }
+ interface AppState{
+  employeeState:{employees : Employees};
+ }
+
+class MainTable extends Component <AppState,AppProps> {
+       
       
        componentDidMount () {
         let component = this;
-        // let projectSelected = localStorage.getItem("projectSelected");
-       
-
     
-        axios.get('http://localhost:4000/getemployeelist')
-        .then(function (res) {
-         component.setState({ Employees: res.data });
-          console.log("hello world")
-          //arrysdata= res.data;
-          console.log(arrysdata)
-          console.log(qs.stringify(res, { filter: ['name','dateOfBirth','gender','salary'],arrayFormat: 'comma' }))
-          //console.log(component.state.Employees);
-          component.state.Employees.map((content, idx) => (
-            // console.log(content)
-            arrysdata.push({"id":content._id,"name":content.name,"dateOfBirth":content.dateOfBirth,"gender":content.gender,"salary":content.salary})
-          ))
-          //console.log(arrysdata[0])
-          // arrysdata.map((content, idx) => ( 
-          //   console.log(content)
-             
-          // ));
-        //   {Object.keys(arrysdata[0]).map((tname, idx) => (
-        //     tableName.push(tname)
-            
-        //   ))
-        // }
-        tableName=arrysdata[0];
-          //console.log(tableName)
-          
-          //console.log(data[0])
-
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
     
       }
 
@@ -128,7 +103,7 @@ export class MainTable extends React.Component {
 
 
 {
-this.state.Employees.map((content, idx) => (
+this.props.employeeState.employees.map((content, idx) => (
   //console.log(content)
               
 
@@ -159,3 +134,13 @@ this.state.Employees.map((content, idx) => (
     
   }
 }
+const MapStateToProps = (state:AppState) => {return{ employeeState: state.employeeState }}
+const MapDispatchToProps = (dispatch:Dispatch) => {
+  return{
+
+    onGetEmployee: ()=>{ dispatch(getlistEmployee())}
+  }
+    
+  
+};
+export default connect(MapStateToProps, MapDispatchToProps)(MainTable);

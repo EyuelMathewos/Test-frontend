@@ -45,9 +45,8 @@ export const listEmployee = (empstate:Array<object>)=>({
     type: LIST_EMP,
     payload: empstate
 });
-export const getlistEmployee = (id:string)=>({
-    type: GET_EMP,
-    payload: id
+export const getlistEmployee = ()=>({
+    type: GET_EMP
 });
 
 export type EmpAction = 

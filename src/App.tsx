@@ -5,20 +5,20 @@ import  {  Container, Nav ,
   NavItems,
   FormInput, SFormLable, Button, FormContainer  }  from  "./components/Container";
   import {FlexContainer, CardContainer, Card} from "./components/Grid/grid";
-  import {MainTable} from "./components/Table/table";
+
   import { connect } from 'react-redux';
 
 import {listEmployee, getlistEmployee, reqAddEmployee} from './redux/Action/empAction';
+import MainTable from "./components/Table/table";
 
 
-import { action, Action, StateType } from "typesafe-actions";
 // import {Employees} from "./redux/type"
 import { Dispatch } from "redux";
   //let data:string;
   //let values:string;
  interface AppProps{
   onListEmployee(empstate:Object): void;
-  onGetEmployee(id:string): void;
+  onGetEmployee(): void;
 
   reqAddEmployee(emp:object):void;
  }
@@ -145,6 +145,7 @@ class App extends Component<AppProps,AppState> {
             <div style={{"display":"flex"}}>
             <Button type="submit" color="#00b3ff">Add employee</Button>
             <button type="button" color="#ffa800d6" onClick={()=>{this.props.onListEmployee([{"new":"he"}])}}>update employee</button>
+            <button type="button" color="#ffa800d6" onClick={()=>{this.props.onGetEmployee()}}>get list employee</button>
             </div>
             {/* {console.log(this.props)} */}
             </Card>
@@ -171,7 +172,7 @@ const MapStateToProps = (state:AppState) : AppState => ({ ...state })
 const MapDispatchToProps = (dispatch:Dispatch) => {
   return{
     onListEmployee: (empstate:Array<object>)=>{ dispatch(listEmployee(empstate))},
-    onGetEmployee: (id:string)=>{ dispatch(getlistEmployee(id))},
+    onGetEmployee: ()=>{ dispatch(getlistEmployee())},
     reqAddEmployee: (emp:object)=>{ dispatch(reqAddEmployee(emp))}
   }
     
