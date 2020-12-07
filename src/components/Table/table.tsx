@@ -47,7 +47,7 @@ const data = [
 ];
 
 type Employees = [{
-  
+  _id:String,
   name: String,
   dateOfBirth: String,
   gender: String,
@@ -55,9 +55,11 @@ type Employees = [{
  }]
 let arrysdata : Array<object>=[]; 
 let tableName : object=[]; 
+
+
 export class MainTable extends React.Component {
         state = {
-          Employees: [{name: String,dateOfBirth: String,gender: String,salary: String}]
+          Employees: [{_id:String,name: String,dateOfBirth: String,gender: String,salary: String}]
             
         };
       
@@ -77,7 +79,7 @@ export class MainTable extends React.Component {
           //console.log(component.state.Employees);
           component.state.Employees.map((content, idx) => (
             // console.log(content)
-            arrysdata.push({"name":content.name,"dateOfBirth":content.dateOfBirth,"gender":content.gender,"salary":content.salary})
+            arrysdata.push({"id":content._id,"name":content.name,"dateOfBirth":content.dateOfBirth,"gender":content.gender,"salary":content.salary})
           ))
           //console.log(arrysdata[0])
           // arrysdata.map((content, idx) => ( 
@@ -138,7 +140,7 @@ this.state.Employees.map((content, idx) => (
         <TD key={idx+"gender"} >{content.gender}</TD>
         <TD key={idx+"salary"} >{content.salary}</TD>
       
-        <TD>{<Button color="#ff000087" >Delete</Button>}</TD>
+        <TD>{<Button type="button" color="#ff000087" onClick={()=>{console.log(content._id)}} >Delete</Button>}</TD>
       </TR>
 
 

@@ -8,7 +8,7 @@ import  {  Container, Nav ,
   import {MainTable} from "./components/Table/table";
   import { connect } from 'react-redux';
 
-import {listEmployee, getlistEmployee} from './redux/Action/empAction';
+import {listEmployee, getlistEmployee, reqAddEmployee} from './redux/Action/empAction';
 
 
 import { action, Action, StateType } from "typesafe-actions";
@@ -18,20 +18,22 @@ import { Dispatch } from "redux";
   //let values:string;
  interface AppProps{
   onListEmployee(empstate:Object): void;
-  onGetEmployee(): void;
+  onGetEmployee(id:string): void;
+
+  reqAddEmployee(emp:object):void;
  }
  interface AppState{
   employees : Object;
  }
-
+ let data: Object;
 class App extends Component<AppProps,AppState> {
-    constructor(props:AppProps) {
-      super(props);
-      this.handleSubmit = this.handleSubmit.bind(this);
-    }
-    
-    handleSubmit = (event: React.SyntheticEvent ) => {
-      console.log(event)
+    // constructor(props:AppProps) {
+    //   super(props);
+    //   //this.handleSubmit = this.handleSubmit.bind(this);
+    // }
+
+    handleSubmit = (event: React.FormEvent<HTMLFormElement> ): Object => {
+     // console.log(event)
       event.preventDefault();
       const target = event.target as typeof event.target & {
         name: { value: string };
@@ -44,14 +46,16 @@ class App extends Component<AppProps,AppState> {
       //   name: { value: string };
       //   dateOfBirth: { value: string };
       // };
-      console.log(target)
-      let data = {
+     // console.log(target)
+       data = {
         "name":target.name.value,
         "dateOfBirth": target.dateOfBirth.value,
         "gender": target.gender.value,
         "salary": target.salary.value
       };
       console.log(data)
+      console.log(this.props)
+      this.props.reqAddEmployee(data)
        //value = e.target.value
       //console.log(data.get("username"))
       //console.log(data.get("password"))
@@ -69,12 +73,13 @@ class App extends Component<AppProps,AppState> {
       //     console.log(values)
       //   }
       // })
-  
+  return data
     };
 
   
 
-    render() { 
+    render() {
+  //console.log(this.props)
   return (
     <Container>
     <Nav>
@@ -138,8 +143,8 @@ class App extends Component<AppProps,AppState> {
             </div>
             </div>
             <div style={{"display":"flex"}}>
-            <Button  color="#00b3ff" onClick={()=>{this.props.onGetEmployee()}} >Add employee</Button>
-            <Button color="#ffa800d6" onClick={()=>{this.props.onListEmployee([{"new":"he"}])}}>update employee</Button>
+            <Button type="submit" color="#00b3ff">Add employee</Button>
+            <button type="button" color="#ffa800d6" onClick={()=>{this.props.onListEmployee([{"new":"he"}])}}>update employee</button>
             </div>
             {/* {console.log(this.props)} */}
             </Card>
@@ -166,7 +171,8 @@ const MapStateToProps = (state:AppState) : AppState => ({ ...state })
 const MapDispatchToProps = (dispatch:Dispatch) => {
   return{
     onListEmployee: (empstate:Array<object>)=>{ dispatch(listEmployee(empstate))},
-    onGetEmployee: ()=>{ dispatch(getlistEmployee())}
+    onGetEmployee: (id:string)=>{ dispatch(getlistEmployee(id))},
+    reqAddEmployee: (emp:object)=>{ dispatch(reqAddEmployee(emp))}
   }
     
   

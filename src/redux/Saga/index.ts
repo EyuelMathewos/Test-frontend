@@ -1,41 +1,79 @@
 import { put, takeLatest, all } from 'redux-saga/effects';
 import axios from 'axios';
-const delay = (ms:number) => new Promise(res => setTimeout(res, ms))
+import qs from 'qs';
+//const delay = (ms:number) => new Promise(res => setTimeout(res, ms))
 let data : Array<object>=[]; 
 function* helloSaga() {
   yield console.log('Hello Sagas!')
   }
+  type Employees = [{
+  
+    name: String,
+    dateOfBirth: String,
+    gender: String,
+    salary: String
+   }]
 
+   export interface actionType {
+    type: string;
+    payload: Object;
+  }
+  export function* addEmployeeAsync(action:actionType) {
+    
+     yield console.log('calling add employee')
+    
+    axios.post('http://localhost:4000/addemployee',qs.stringify(action.payload))
+    .then(function (res) {
+       console.log(res)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    console.log(data)
+    yield put({ type: "ADD_EMP", payload: action.payload });
 
+  }
 
-  export function* incrementAsync() {
-    //yield delay(1000)
+  export function* employeelistAsync(action:actionType) {
+    
     yield console.log('Hello Sagas form a sagaå!')
     
     axios.get('http://localhost:4000/getemployeelist')
     .then(function (res) {
      console.log(typeof res.data)
      console.log(res.data)
-     data=res.data
+     
+     console.log(data)
+    
+     res.data.map((content:Employees, idx:number) => (
+      
+      data.push(content)
+      
+    ))
+    console.log(action.payload)
+    console.log(data[0])
 
     })
     .catch(function (error) {
       console.log(error);
     });
     console.log(data)
-    yield put({ type: "LIST_EMP", payload: data });
+    yield put({ type: "LIST_EMP", payload: [data] });
 
   }
   
-  // Our watcher Saga: spawn a new incrementAsync task on each INCREMENT_ASYNC
-  export function* watchIncrementAsync() {
-    yield takeLatest('GET_EMP', incrementAsync)
+
+
+
+  export function* watchEmployeeListAsync() {
+    yield takeLatest('GET_EMP', employeelistAsync)
+    yield takeLatest('REQ_ADD_EMP', addEmployeeAsync)
   }
 
    function* rootSaga() {
     yield all([
       helloSaga(),
-      watchIncrementAsync()
+      watchEmployeeListAsync()
     ])
   }
   export default rootSaga
