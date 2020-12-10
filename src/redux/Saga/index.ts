@@ -7,7 +7,7 @@ function* helloSaga() {
   yield console.log('Hello Sagas!')
   }
   type Employees = [{
-  
+    _id:string,
     name: String,
     dateOfBirth: String,
     gender: String,
@@ -20,25 +20,43 @@ function* helloSaga() {
 
    export interface actionType {
     type: string;
-    payload: object;
+    payload: object|String;
   }
+  
   let data :Object ;
   export function* addEmployeeAsync(action:actionType) {
     
      yield console.log('calling add employee')
     
-    axios.post('http://localhost:4000/addemployee',qs.stringify(action.payload))
+    yield axios.post('http://localhost:4000/addemployee',qs.stringify(action.payload))
     .then(function (res) {
        console.log(res)
+       data=res.data;
+       
     })
     .catch(function (error) {
       console.log(error);
     });
     //console.log(data)
-    yield put({ type: "ADD_EMP", payload:  action.payload });
+    yield put({ type: "ADD_EMP", payload:  data });
 
   }
-
+  export function* deleteEmployeeAsync(action:actionType) {
+    
+    yield console.log('calling delete employee')
+   yield console.log(action.payload)
+   yield axios.delete('http://localhost:4000/deleteemployee/'+action.payload)
+   .then(function (res) {
+      console.log(res)
+   })
+   .catch(function (error) {
+     console.log(error);
+   });
+   //console.log(data)
+   yield put({ type: "DELETE_EMP", payload:  action.payload });
+   yield put({ type: "GET_EMP"});
+ 
+ }
   export function* employeelistAsync(action:actionType) {
     
     yield console.log('Hello Sagas form a sagaå!')
@@ -76,6 +94,7 @@ function* helloSaga() {
   export function* watchEmployeeListAsync() {
     yield takeLatest('GET_EMP', employeelistAsync)
     yield takeLatest('REQ_ADD_EMP', addEmployeeAsync)
+    yield takeLatest('REQ_DELETE_EMP', deleteEmployeeAsync)
   }
 
    function* rootSaga() {

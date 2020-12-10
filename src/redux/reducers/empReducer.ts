@@ -34,9 +34,9 @@ const empReducer = (state=initialState , action:actionType) => {
             case EDIT_EMP :
               return {...state,action}
             case DELETE_EMP :
-                return {...state,action}
+                return {...state}
             case LIST_EMP :
-              return {...state,employees: state.employees.concat(action.payload)}
+              return {employees: action.payload}
 
             case REQ_ADD_EMP :
               return {...state}

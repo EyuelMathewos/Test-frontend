@@ -5,7 +5,7 @@ import axios from 'axios';
 import qs from 'qs';
 import { connect } from 'react-redux';
 
-import { getlistEmployee } from '../../redux/Action/empAction';
+import { getlistEmployee, reqDeleteEmployee } from '../../redux/Action/empAction';
 import { Dispatch } from "redux";
 
 export const TH = styled.th`
@@ -64,16 +64,21 @@ let tableName : object=[];
 
 interface AppProps{
   onGetEmployeeList(): void;
+  onReqDeleteEmployee(id:String):void;
  }
  interface AppState{
   employeeState:{employees : Employees};
  }
 
 class MainTable extends Component <AppState & AppProps> {
+  constructor(props: any) {
+    super(props);
+    this.state = { listofempstate: Object};
+  }
  
-  state = {
-    listofempstate: this.props.employeeState.employees,
-  };
+  // state = {
+  //   listofempstate: this.props.employeeState.employees,
+  // };
                // this.props.onGetEmployeeList();
       callforAction(){
    //     this.props.onGetEmployeeList();
@@ -81,9 +86,9 @@ class MainTable extends Component <AppState & AppProps> {
       componentDidMount () {
 
        // this.callforAction();
-        // this.props.onGetEmployeeList()
+         this.props.onGetEmployeeList()
  //console.log(  this.props)
-    console.log(this.state.listofempstate)
+
       }
 
   render() { 
@@ -113,19 +118,19 @@ class MainTable extends Component <AppState & AppProps> {
                 {
                   //  console.log(this.props.employeeState.employees)
    this.props.employeeState.employees.map((content, idx) => (
-  console.log(content)
-              
+  //console.log(this.state)
+        //  <h1>Hello world</h1>     
 
 
-      //   <TR>
+        <TR onClick={()=>{alert(content._id)}}>
      
-      //   <TD key={idx+"name"} >{content}</TD>
-      //   <TD key={idx+"dateofb"} >{content.dateOfBirth}</TD>
-      //   <TD key={idx+"gender"} >{content.gender}</TD>
-      //   <TD key={idx+"salary"} >{content.salary}</TD>
+        <TD key={idx+"name"} >{content.name}</TD>
+        <TD key={idx+"dateofb"} >{content.dateOfBirth}</TD>
+        <TD key={idx+"gender"} >{content.gender}</TD>
+        <TD key={idx+"salary"} >{content.salary}</TD>
       
-      //   <TD>{<Button type="button" color="#ff000087" onClick={()=>{console.log(content._id)}} >Delete</Button>}</TD>
-      // </TR>
+        <TD>{<Button type="button" color="#ff000087" onClick={()=>{this.props.onReqDeleteEmployee(content._id)}} >Delete</Button>}</TD>
+      </TR>
 
 
             ))
@@ -147,7 +152,8 @@ const MapStateToProps = (state:AppState) : AppState => ({ ...state })
 const MapDispatchToProps = (dispatch:Dispatch) => {
   return{
 
-    onGetEmployeeList: ()=>{ dispatch(getlistEmployee())}
+    onGetEmployeeList: ()=>{ dispatch(getlistEmployee())},
+    onReqDeleteEmployee: (id:string)=>{ dispatch(reqDeleteEmployee(id))}
   }
     
   

@@ -10,7 +10,7 @@ export const REQ_DELETE_EMP = "REQ_DELETE_EMP";
 export const REQ_LIST_EMP = "REQ_LIST_EMP";
 
 type Employees = [{
-  
+    _id:string,
     name: String,
     dateOfBirth: String,
     gender: String,
@@ -46,7 +46,7 @@ export const deleteEmployee = (id:string)=>({
     type: DELETE_EMP,
     payload: id
 });
-export const reqDeleteEmployee = (id:string)=>({
+export const reqDeleteEmployee = (id:String)=>({
     type: REQ_DELETE_EMP,
     payload: id
 });
