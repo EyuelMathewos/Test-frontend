@@ -17,7 +17,7 @@ import { Dispatch } from "redux";
   //let data:string;
   //let values:string;
  interface AppProps{
-  onListEmployee(empstate:Object): void;
+  // onListEmployee(empstate:Object): void;
   onGetEmployee(): void;
 
   reqAddEmployee(emp:object):void;
@@ -144,7 +144,7 @@ class App extends Component<AppProps,AppState> {
             </div>
             <div style={{"display":"flex"}}>
             <Button type="submit" color="#00b3ff">Add employee</Button>
-            <button type="button" color="#ffa800d6" onClick={()=>{this.props.onListEmployee([{"new":"he"}])}}>update employee</button>
+            {/* <button type="button" color="#ffa800d6" onClick={()=>{this.props.onListEmployee([{"new":"he"}])}}>update employee</button> */}
             <button type="button" color="#ffa800d6" onClick={()=>{this.props.onGetEmployee()}}>get list employee</button>
             </div>
             {/* {console.log(this.props)} */}
@@ -171,7 +171,7 @@ class App extends Component<AppProps,AppState> {
 const MapStateToProps = (state:AppState) : AppState => ({ ...state })
 const MapDispatchToProps = (dispatch:Dispatch) => {
   return{
-    onListEmployee: (empstate:Array<object>)=>{ dispatch(listEmployee(empstate))},
+    // onListEmployee: (empstate:Array<object>)=>{ dispatch(listEmployee(empstate))},
     onGetEmployee: ()=>{ dispatch(getlistEmployee())},
     reqAddEmployee: (emp:object)=>{ dispatch(reqAddEmployee(emp))}
   }

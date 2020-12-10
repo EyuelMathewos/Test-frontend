@@ -2,7 +2,7 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import axios from 'axios';
 import qs from 'qs';
 //const delay = (ms:number) => new Promise(res => setTimeout(res, ms))
-let data : Object=[]; 
+ 
 function* helloSaga() {
   yield console.log('Hello Sagas!')
   }
@@ -20,8 +20,9 @@ function* helloSaga() {
 
    export interface actionType {
     type: string;
-    payload: Object;
+    payload: object;
   }
+  let data :Object ;
   export function* addEmployeeAsync(action:actionType) {
     
      yield console.log('calling add employee')
@@ -33,8 +34,8 @@ function* helloSaga() {
     .catch(function (error) {
       console.log(error);
     });
-    console.log(data)
-    yield put({ type: "ADD_EMP", payload: action.payload });
+    //console.log(data)
+    yield put({ type: "ADD_EMP", payload:  action.payload });
 
   }
 
@@ -42,27 +43,29 @@ function* helloSaga() {
     
     yield console.log('Hello Sagas form a sagaå!')
     
-    axios.get('http://localhost:4000/getemployeelist')
+    yield axios.get('http://localhost:4000/getemployeelist')
     .then(function (res) {
      console.log(typeof res.data)
      console.log(res.data)
      
-     console.log(data)
+    //  console.log(data)
     
     //  res.data.map((content:Employees, idx:number) => (
       
     //   data.push(content)
       
     // ))
-    data={employeeState:{employees : res.data}};
+    data=res.data;
+    
    // console.log(action.payload)
-    console.log(data)
+     console.log(data)
 
     })
     .catch(function (error) {
       console.log(error);
     });
-    console.log(data)
+    yield console.log("data from list emp api")
+    yield console.log(data)
     yield put({ type: "LIST_EMP", payload: data });
 
   }

@@ -25,9 +25,9 @@ export interface actionType {
   type: string;
   payload: Object;
 }
-let employees={};
+//let employees={};
 const empReducer = (state=initialState , action:actionType) => {
-  employees=action.payload
+  //employees=action.payload
     switch(action.type) {
            case ADD_EMP :
             return {...state,employees: state.employees.concat(action.payload)}
@@ -47,7 +47,7 @@ const empReducer = (state=initialState , action:actionType) => {
             case REQ_LIST_EMP :
                   return {...state}
             case GET_EMP :
-              return {...state}
+               return {...state}
            default :
             return state
   };

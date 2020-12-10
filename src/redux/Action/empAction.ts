@@ -9,7 +9,17 @@ export const REQ_EDIT_EMP = "REQ_EDIT_EMP";
 export const REQ_DELETE_EMP = "REQ_DELETE_EMP";
 export const REQ_LIST_EMP = "REQ_LIST_EMP";
 
+type Employees = [{
+  
+    name: String,
+    dateOfBirth: String,
+    gender: String,
+    salary: String
+   }]
 
+interface AppState{
+    employeeState:{employees : Employees};
+   }
 
 
 export const addEmployee = (empstate:Object)=>({
@@ -41,7 +51,7 @@ export const reqDeleteEmployee = (id:string)=>({
     payload: id
 });
 
-export const listEmployee = (empstate:Array<object>)=>({
+export const listEmployee = (empstate:Object)=>({
     type: LIST_EMP,
     payload: empstate
 });
