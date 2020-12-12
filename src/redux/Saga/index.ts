@@ -6,21 +6,30 @@ import qs from 'qs';
 function* helloSaga() {
   yield console.log('Hello Sagas!')
   }
-  type Employees = [{
-    _id:string,
-    name: String,
-    dateOfBirth: String,
-    gender: String,
-    salary: String
-   }]
+  // type Employees = [{
+  //   _id:string,
+  //   name: String,
+  //   dateOfBirth: String,
+  //   gender: String,
+  //   salary: String
+  //  }]
 
-   interface AppState{
-    employeeState:{employees : Employees};
-   }
+  //  interface AppState{
+  //   employeeState:{employees : Employees};
+  //  }
 
    export interface actionType {
     type: string;
     payload: object|String;
+  }
+  export interface updateActionType {
+    type: string;
+    payload: {  
+      id:String,
+      name: String,
+      dateOfBirth: String,
+      gender: String,
+      salary: String};
   }
   
   let data :Object ;
@@ -41,6 +50,26 @@ function* helloSaga() {
     yield put({ type: "ADD_EMP", payload:  data });
 
   }
+  export function* updateEmployeeAsync(action:updateActionType) {
+    
+    yield console.log('calling update employee')
+    yield console.log(action.payload.name)
+   
+   yield axios.post('http://localhost:4000/updateemployee/'+action.payload.id,qs.stringify(action.payload))
+   .then(function (res) {
+      console.log(res)
+      data=res.data;
+      
+   })
+   .catch(function (error) {
+     console.log(error);
+   });
+   yield console.log(data)
+   
+   yield put({ type: "EDIT_EMP", payload: action.payload });
+   yield put({ type: "GET_EMP"});
+   yield put({ type: "UPDATE_EMP_FORM", payload: action.payload});
+ }
   export function* deleteEmployeeAsync(action:actionType) {
     
     yield console.log('calling delete employee')
@@ -95,6 +124,7 @@ function* helloSaga() {
     yield takeLatest('GET_EMP', employeelistAsync)
     yield takeLatest('REQ_ADD_EMP', addEmployeeAsync)
     yield takeLatest('REQ_DELETE_EMP', deleteEmployeeAsync)
+    yield takeLatest('REQ_EDIT_EMP', updateEmployeeAsync)
   }
 
    function* rootSaga() {

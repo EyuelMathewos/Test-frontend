@@ -12,13 +12,17 @@ import {REQ_EDIT_EMP} from "../Action/empAction";
 import {REQ_DELETE_EMP} from "../Action/empAction";
 import {REQ_LIST_EMP} from "../Action/empAction";
 
+ import {UPDATE_EMP_FORM} from "../Action/empAction";
+
 
 export interface initalStateType {
-  employees: Array<object>
+  employees: Array<object>,
+  formupdate: Object
 }
 
 const initialState:initalStateType = {
-  employees: []
+  employees: [],
+  formupdate:{}
 }
 ;
 export interface actionType {
@@ -32,11 +36,13 @@ const empReducer = (state=initialState , action:actionType) => {
            case ADD_EMP :
             return {...state,employees: state.employees.concat(action.payload)}
             case EDIT_EMP :
-              return {...state,action}
+              return {...state,employees: state.employees}
             case DELETE_EMP :
                 return {...state}
             case LIST_EMP :
               return {employees: action.payload}
+            case UPDATE_EMP_FORM :
+                return {...state,formupdate: action.payload}
 
             case REQ_ADD_EMP :
               return {...state}

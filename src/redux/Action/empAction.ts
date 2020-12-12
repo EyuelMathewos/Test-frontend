@@ -2,6 +2,7 @@ export const ADD_EMP = "ADD_EMP";
 export const EDIT_EMP = "EDIT_EMP";
 export const DELETE_EMP = "DELETE_EMP";
 export const LIST_EMP = "LIST_EMP";
+export const UPDATE_EMP_FORM="UPDATE_EMP_FORM";
 
 export const GET_EMP = "GET_EMP";
 export const REQ_ADD_EMP = "REQ_ADD_EMP";
@@ -32,14 +33,14 @@ export const reqAddEmployee = (empstate:Object)=>({
     payload: empstate
 });
 
-export const editEmployee = (id:string)=>({
+export const editEmployee = (emp:Object)=>({
     type: EDIT_EMP,
-    payload: id
+    payload: emp
 });
 
-export const reqEditEmployee = (id:string)=>({
+export const reqEditEmployee = (emp:Object)=>({
     type: REQ_EDIT_EMP,
-    payload: id
+    payload: emp
 });
 
 export const deleteEmployee = (id:string)=>({
@@ -58,9 +59,8 @@ export const listEmployee = (empstate:Object)=>({
 export const getlistEmployee = ()=>({
     type: GET_EMP
 });
+export const updateEmployeeForm = (empstate:Object)=>({
+    type: UPDATE_EMP_FORM,
+    payload:empstate
+});
 
-export type EmpAction = 
-|  {type:"ADD_EMP"; payload: Object}
-|  {type:"EDIT_EMP"; payload: string}
-|  {type:"DELETE_EMP"; payload: string}
-|  {type:"LIST_EMP"; payload: Object}

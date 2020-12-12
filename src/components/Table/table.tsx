@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import { Button }  from  "../../components/Container";
-import axios from 'axios';
-import qs from 'qs';
+//import axios from 'axios';
+//import qs from 'qs';
 import { connect } from 'react-redux';
 
-import { getlistEmployee, reqDeleteEmployee } from '../../redux/Action/empAction';
+import { getlistEmployee, reqDeleteEmployee, updateEmployeeForm } from '../../redux/Action/empAction';
 import { Dispatch } from "redux";
 
 export const TH = styled.th`
@@ -36,20 +36,7 @@ export const Label = styled.label`
   width: 100%;
   height: 100%;
 `;
-const data = [
-  {
-    Name: "Anssam",
-    Age: "20"
-  },
-  {
-    Name: "Rihab",
-    Age: "12"
-  },
-  {
-    Name: "Amir",
-    Age: "3"
-  }
-];
+
 
 type Employees = [{
   _id:String,
@@ -58,16 +45,18 @@ type Employees = [{
   gender: String,
   salary: String
  }]
-let arrysdata : Array<object>=[]; 
-let tableName : object=[]; 
 
 
 interface AppProps{
   onGetEmployeeList(): void;
   onReqDeleteEmployee(id:String):void;
+  onUpdateEmployeeForm(emp:Object):void;
  }
  interface AppState{
-  employeeState:{employees : Employees};
+  employeeState:{employees : Employees,
+    formupdate: Object
+  }
+
  }
 
 class MainTable extends Component <AppState & AppProps> {
@@ -80,11 +69,12 @@ class MainTable extends Component <AppState & AppProps> {
   //   listofempstate: this.props.employeeState.employees,
   // };
                // this.props.onGetEmployeeList();
-      callforAction(){
-   //     this.props.onGetEmployeeList();
+      callforUpdate(emp:String){
+          //this.props.onUpdateEmployeeForm(emp);
+          
       }
       componentDidMount () {
-
+        
        // this.callforAction();
          this.props.onGetEmployeeList()
  //console.log(  this.props)
@@ -118,17 +108,17 @@ class MainTable extends Component <AppState & AppProps> {
                 {
                   //  console.log(this.props.employeeState.employees)
    this.props.employeeState.employees.map((content, idx) => (
-  //console.log(this.state)
+  //console.log( {name:content._id,dateOfBirth:content.dateOfBirth,gender:content.gender,salary:content.salary})
         //  <h1>Hello world</h1>     
 
 
-        <TR onClick={()=>{alert(content._id)}}>
+        <TR>
      
         <TD key={idx+"name"} >{content.name}</TD>
         <TD key={idx+"dateofb"} >{content.dateOfBirth}</TD>
         <TD key={idx+"gender"} >{content.gender}</TD>
         <TD key={idx+"salary"} >{content.salary}</TD>
-      
+        <TD>{<Button type="button" color="#00ff2e87" onClick={()=>{this.props.onUpdateEmployeeForm({id:content._id,name:content.name,dateOfBirth:content.dateOfBirth,gender:content.gender,salary:content.salary})}} >Edit</Button>}</TD>
         <TD>{<Button type="button" color="#ff000087" onClick={()=>{this.props.onReqDeleteEmployee(content._id)}} >Delete</Button>}</TD>
       </TR>
 
@@ -151,9 +141,9 @@ class MainTable extends Component <AppState & AppProps> {
 const MapStateToProps = (state:AppState) : AppState => ({ ...state })
 const MapDispatchToProps = (dispatch:Dispatch) => {
   return{
-
     onGetEmployeeList: ()=>{ dispatch(getlistEmployee())},
-    onReqDeleteEmployee: (id:string)=>{ dispatch(reqDeleteEmployee(id))}
+    onReqDeleteEmployee: (id:string)=>{ dispatch(reqDeleteEmployee(id))},
+    onUpdateEmployeeForm: (emp:Object)=>{ dispatch(updateEmployeeForm(emp))}
   }
     
   

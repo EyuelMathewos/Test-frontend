@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 //import logo from './components/img/logo.png';
 import  {  Container, Nav ,
   NavBrand,
@@ -8,25 +8,48 @@ import  {  Container, Nav ,
 
   import { connect } from 'react-redux';
 
-import {listEmployee, getlistEmployee, reqAddEmployee} from './redux/Action/empAction';
+import { getlistEmployee, reqAddEmployee, reqEditEmployee} from './redux/Action/empAction';
 import MainTable from "./components/Table/table";
 
 
 // import {Employees} from "./redux/type"
 import { Dispatch } from "redux";
+
   //let data:string;
   //let values:string;
  interface AppProps{
   // onListEmployee(empstate:Object): void;
   onGetEmployee(): void;
-
   reqAddEmployee(emp:object):void;
+  reqEditEmployee(emp:object):void;
  }
  interface AppState{
-  employees : Object;
+  employeeState:{
+    employees : Object,
+    formupdate: {
+      id:String,
+      name: String,
+      dateOfBirth: String,
+      gender: String,
+      salary: String
+    }
+  }
  }
+ 
  let data: Object;
-class App extends Component<AppProps,AppState> {
+ let name: String;
+ let date: String;
+ let gender: String;
+ let salary: String;
+ let id: String;
+
+class App extends Component<AppProps & AppState> {
+
+  private ref:any = createRef<HTMLFormElement>();
+  private date:any = createRef<HTMLFormElement>();
+  private gender:any = createRef<HTMLFormElement>();
+  private salary:any = createRef<HTMLFormElement>();
+  
     // constructor(props:AppProps) {
     //   super(props);
     //   //this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,6 +64,7 @@ class App extends Component<AppProps,AppState> {
         gender:{value: string};
         salary:{value: string};
       };
+
      //let data = new FormData(event.target);
       // const data = e.target as typeof e.target & {
       //   name: { value: string };
@@ -75,8 +99,43 @@ class App extends Component<AppProps,AppState> {
       // })
   return data
     };
+setFormData(){
+  name = this.props.employeeState.formupdate.name;
+  date = this.props.employeeState.formupdate.dateOfBirth;
+  gender = this.props.employeeState.formupdate.gender;
+  salary = this.props.employeeState.formupdate.salary;
+  id = this.props.employeeState.formupdate.id;
+}
+    componentDidUpdate(){
+    //  let formupdatedata:Object = this.props.employeeState.formupdate
+     
+      // console.log("hello world on update");
+      // console.log(this.ref)
+      // console.log("the value of ref")
+      
 
-  
+if(this.props.employeeState.formupdate !== undefined)
+
+
+this.setFormData();
+
+if(name !== undefined){
+  this.ref.current.value = name;
+}
+if(date !== undefined){
+  this.date.current.value = date;
+}
+if(gender !== undefined){
+  this.gender.current.value = gender;
+}
+if(salary !== undefined){
+  this.salary.current.value = salary;
+}
+
+
+
+
+    }
 
     render() {
   //console.log(this.props)
@@ -92,7 +151,7 @@ class App extends Component<AppProps,AppState> {
             </Nav>
             <FormContainer>
              
-              <form onSubmit={this.handleSubmit}>
+              <form  onSubmit={this.handleSubmit}>
 <FlexContainer>
   <CardContainer>
 
@@ -101,14 +160,14 @@ class App extends Component<AppProps,AppState> {
             <div>
 
               <div style={{"display":"flex"}} ><SFormLable>Name</SFormLable>
-                  <FormInput
+                  <FormInput ref={this.ref}
                     name="name"
                     width="100%"
                   /></div>
 
               <div style={{"display":"flex"}}>
               <SFormLable >Date of Birth</SFormLable> 
-                  <FormInput
+                  <FormInput ref={this.date}
                     name="dateOfBirth"
                     type="date"
                     width="100%"
@@ -119,7 +178,7 @@ class App extends Component<AppProps,AppState> {
             <div> 
             <div style={{"display":"flex"}}><SFormLable>Gender</SFormLable>
             <SFormLable>Male</SFormLable>
-                  <FormInput
+                  <FormInput ref={this.gender}
                     name="gender"
                     type="radio"
                     value="male"
@@ -132,10 +191,11 @@ class App extends Component<AppProps,AppState> {
                     type="radio"
                     value="female"
                     width="25px"
+                    ref={this.gender}
                   /></div>
                   <div style={{"display":"flex"}}>
               <div > <SFormLable >salary</SFormLable></div>
-                  <FormInput
+                  <FormInput ref={this.salary}
                     name="salary"
                     width="100%"
                   /></div>
@@ -144,8 +204,8 @@ class App extends Component<AppProps,AppState> {
             </div>
             <div style={{"display":"flex"}}>
             <Button type="submit" color="#00b3ff">Add employee</Button>
-            {/* <button type="button" color="#ffa800d6" onClick={()=>{this.props.onListEmployee([{"new":"he"}])}}>update employee</button> */}
-            <button type="button" color="#ffa800d6" onClick={()=>{this.props.onGetEmployee()}}>get list employee</button>
+            <Button type="button" color="#ffa800d6" onClick={()=>{this.props.reqEditEmployee({"id":id,"name":this.ref.current.value,"dateOfBirth":this.date.current.value,"gender":this.gender.current.value,"salary":this.salary.current.value})}}>update employee</Button>
+            {/* <Button type="button" color="#ffa800d6" onClick={()=>{this.props.onGetEmployee()}}>get list employee</Button> */}
             </div>
             {/* {console.log(this.props)} */}
             </Card>
@@ -173,7 +233,8 @@ const MapDispatchToProps = (dispatch:Dispatch) => {
   return{
     // onListEmployee: (empstate:Array<object>)=>{ dispatch(listEmployee(empstate))},
     onGetEmployee: ()=>{ dispatch(getlistEmployee())},
-    reqAddEmployee: (emp:object)=>{ dispatch(reqAddEmployee(emp))}
+    reqAddEmployee: (emp:object)=>{ dispatch(reqAddEmployee(emp))},
+    reqEditEmployee: (emp:object)=>{ dispatch(reqEditEmployee(emp))}
   }
     
   
