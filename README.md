@@ -1,6 +1,7 @@
 ## Test-frontend 
-This is frontend for perfroming request to Backed-End CRUD operatio
-n  It was created with React, TypeScript, Redux, Redux-Saga and Styled Component.
+This is a frontend for performing a request to Backed-End CRUD operation
+It is created with React, TypeScript, Redux, Redux-Saga, and Styled Component.
+
 
 
 ## Available Scripts
