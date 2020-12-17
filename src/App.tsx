@@ -3,7 +3,7 @@ import React, { Component, createRef } from "react";
 import  {  Container, Nav ,
   NavBrand,
   NavItems,
-  FormInput, SFormLable, Button, FormContainer  }  from  "./components/Container";
+  FormInput, SFormLable, Button, FormContainer, BrandTitle  }  from  "./components/Container";
   import {FlexContainer, CardContainer, Card} from "./components/Grid/grid";
 
   import { connect } from 'react-redux';
@@ -143,7 +143,7 @@ if(salary !== undefined){
     <Container>
     <Nav>
                 <NavBrand>
-                Test
+                  <BrandTitle>Test</BrandTitle>
                  </NavBrand>
                 <NavItems>
 
@@ -159,14 +159,14 @@ if(salary !== undefined){
             <Card>
             <div>
 
-              <div style={{"display":"flex"}} ><SFormLable>Name</SFormLable>
+              <div style={{"display":"flex"}} ><SFormLable width="150px">Name</SFormLable>
                   <FormInput ref={this.ref}
                     name="name"
                     width="100%"
                   /></div>
 
               <div style={{"display":"flex"}}>
-              <SFormLable >Date of Birth</SFormLable> 
+              <SFormLable width="150px">Date of Birth</SFormLable> 
                   <FormInput ref={this.date}
                     name="dateOfBirth"
                     type="date"
@@ -176,28 +176,28 @@ if(salary !== undefined){
                 
 
             <div> 
-            <div style={{"display":"flex"}}><SFormLable>Gender</SFormLable>
-            <SFormLable>Male</SFormLable>
+            <div style={{"display":"flex"}}><SFormLable width="100px">Gender</SFormLable>
+            <SFormLable width="50px">Male</SFormLable>
                   <FormInput ref={this.gender}
                     name="gender"
                     type="radio"
                     value="male"
-                    width="25px"
+                    width="15px"
                   />
 
-               <SFormLable>Female</SFormLable>
+               <SFormLable width="50px">Female</SFormLable>
                   <FormInput
                     name="gender"
                     type="radio"
                     value="female"
-                    width="25px"
+                    width="15px"
                     ref={this.gender}
                   /></div>
                   <div style={{"display":"flex"}}>
-              <div > <SFormLable >salary</SFormLable></div>
+              <div > <SFormLable width="100px">salary</SFormLable></div>
                   <FormInput ref={this.salary}
                     name="salary"
-                    width="100%"
+                    width="100px"
                   /></div>
               
             </div>

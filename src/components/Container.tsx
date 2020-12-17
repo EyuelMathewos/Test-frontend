@@ -37,18 +37,14 @@ export const NavBrand = styled.a`
     flex-grow: 1;
     font-weight: bold;
     font-size: 24px;
-    font-weight: 700;
-    color: #fff;
     text-decoration: none;
-    paddingLeft: 20px;
+    padding-left: 20px;
     -webkit-print-color-adjust: exact; 
 `;
 export const BrandTitle = styled.p`
-paddingLeft: 20px;
 margin: 8px 0 2px;
 font-family: Helvetica ,Roboto ,Dancing Script,cursive, sans-serif;
-font-weight: 500;
-font-size:20px;
+font-weight: 700;
 color: #ffffff;
 `;
 export const NavItems = styled.ul`list-style: none;
@@ -107,9 +103,10 @@ color:red;
 
   }
 `;
-export const SFormLable = styled.p`
-width:150px;
+export const SFormLable = styled.p<{width: string}>`
+//width:150px;
 padding-left: 15px;
+width:${props => props.width};
 `;
 
 
