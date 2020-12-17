@@ -37,7 +37,7 @@ function* helloSaga() {
     
      yield console.log('calling add employee')
     
-    yield axios.post('http://localhost:4000/addemployee',qs.stringify(action.payload))
+    yield axios.post('https://backend-test-api.herokuapp.com/addemployee',qs.stringify(action.payload))
     .then(function (res) {
        console.log(res)
        data=res.data;
@@ -55,7 +55,7 @@ function* helloSaga() {
     yield console.log('calling update employee')
     yield console.log(action.payload.name)
    
-   yield axios.post('http://localhost:4000/updateemployee/'+action.payload.id,qs.stringify(action.payload))
+   yield axios.post('https://backend-test-api.herokuapp.com/updateemployee/'+action.payload.id,qs.stringify(action.payload))
    .then(function (res) {
       console.log(res)
       data=res.data;
@@ -74,7 +74,7 @@ function* helloSaga() {
     
     yield console.log('calling delete employee')
    yield console.log(action.payload)
-   yield axios.delete('http://localhost:4000/deleteemployee/'+action.payload)
+   yield axios.delete('https://backend-test-api.herokuapp.com/deleteemployee/'+action.payload)
    .then(function (res) {
       console.log(res)
    })
@@ -90,7 +90,7 @@ function* helloSaga() {
     
     yield console.log('Hello Sagas form a sagaå!')
     
-    yield axios.get('http://localhost:4000/getemployeelist')
+    yield axios.get('https://backend-test-api.herokuapp.com/getemployeelist')
     .then(function (res) {
      console.log(typeof res.data)
      console.log(res.data)
