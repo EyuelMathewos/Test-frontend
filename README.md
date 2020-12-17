@@ -3,6 +3,8 @@ This is a frontend for performing a request to Backed-End CRUD operation
 It is made using React, TypeScript, Redux, Redux-Saga, and Styled Component.
 
 
+## Demo Link
+   [https://frontend-test-one.herokuapp.com/] (Live App Demo)
 
 ## Available Scripts
 
